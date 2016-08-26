@@ -1,15 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GridMap : MonoBehaviour {
+public class GridMap  {
+	int width;
+	int height;
+	public GridMap(int width, int height){
+		this.width = width;
+		this.height = height;
+	}
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }
+
+public class GridTile{
+	bool isAnchor;
+	GridTile anchor;
+	int[,] position; 
+}
+
+public class AnchorTile : GridTile{
+	GridTile[,] connectedTiles;
+}
+
+
