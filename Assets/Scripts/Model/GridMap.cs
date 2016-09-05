@@ -10,15 +10,3 @@ public class GridMap  {
 	}
 
 }
-
-public class GridTile{
-	bool isAnchor;
-	GridTile anchor;
-	int[,] position; 
-}
-
-public class AnchorTile : GridTile{
-	GridTile[,] connectedTiles;
-}
-
-
