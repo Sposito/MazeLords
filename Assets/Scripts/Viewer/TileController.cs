@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TileController : MonoBehaviour {
 
-	bool clicked;
+
 	LevelEditorController levelEditorController;
 	[SerializeField]
 	public Position pos;
@@ -25,10 +25,8 @@ public class TileController : MonoBehaviour {
 	}
 
 	void OnMouseDown(){
-		if (!clicked) {
+
 			levelEditorController.TileClick (pos);
-		}
-		clicked = true;
 
 	}
 

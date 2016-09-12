@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - LevelEditorController
+  - Tile
   layers:
   - Default
   - TransparentFX
