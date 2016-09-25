@@ -9,25 +9,50 @@ public class GridMap  {
 	[SerializeField]
 	int height;
 	[SerializeField]
-	GridTile[] grid;
+	GridTile[] gridMap;
+	[SerializeField]
+	public ChestTile[] chests;
+	public Vector2 Size {get{ return new Vector2 ((float)width, (float)height);}}
+	public GridTile[] Grid{get{return gridMap;}}
 
-	public GridTile[] Grid{get{return grid;}}
 
 
 	public GridMap(int width, int height){
 		this.width = width;
 		this.height = height;
-		grid = new GridTile[width * height];
+		gridMap = new GridTile[width * height];
+	}
+
+	public  void SetBaseGridMap(){
+		chests = new ChestTile[1];
+		chests[0]=  new ChestTile (100, 99);
+		chests [0].BaseFill ();
 	}
 
 	public bool AddTile(Position pos, GridTile tile){
-		if (grid [GetIndex(pos)].IsEmpty && CheckFour(pos)) {
-			grid [GetIndex(pos)] = tile;
-			grid [GetIndex(pos)].SetPosition (pos);
+		if (gridMap [GetIndex(pos)].IsEmpty && CheckFour(pos)) {
+			gridMap [GetIndex(pos)] = tile;
+			gridMap [GetIndex(pos)].SetPosition (pos);
 			return true;
 		} 
 		else return false;
 
+	}
+
+	public GridTile RemoveTile(Position pos){
+		GridTile backup = gridMap [GetIndex (pos)];
+		gridMap [GetIndex (pos)] = GridTile.Empty;
+		if (backup == null) {
+			
+			return null;
+		} 
+		else if (backup.IsEmpty) {
+			return null;
+		} 
+		else {
+			Debug.Log (gridMap [GetIndex (pos)]);
+			return backup;
+		}
 	}
 
 	int GetIndex(int x, int y){
@@ -35,6 +60,10 @@ public class GridMap  {
 	}
 	int GetIndex(Position pos){
 		return pos.y * width + pos.x;
+	}
+
+	public void SetEmpty(Position pos, bool empty){
+		gridMap [GetIndex (pos)].IsEmpty = empty;
 	}
 
 	bool CheckDiagonal(Position pos){
@@ -47,7 +76,7 @@ public class GridMap  {
 		bool result = true;
 		foreach (Position p in postions) {
 			if (!(p.x < 0 || p.x >= width || p.y < 0 || p.y >= height)) {
-				result = result && grid [GetIndex (p)].IsEmpty;
+				result = result && gridMap [GetIndex (p)].IsEmpty;
 			}
 		}
 		return result;
@@ -72,7 +101,7 @@ public class GridMap  {
 				boolMap [i] = true;
 			} 
 			else {
-				boolMap [i] = !(grid [GetIndex (p)].IsEmpty);
+				boolMap [i] = !(gridMap [GetIndex (p)].IsEmpty);
 			}
 		}
 		int next = 0;

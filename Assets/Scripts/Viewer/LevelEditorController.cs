@@ -11,12 +11,17 @@ public class LevelEditorController : MonoBehaviour {
 	[SerializeField]
 	int height = 15;
 
+	public static LevelEditorController Singleton;
+
 	GameObject[,] grid;
 	GridMap gridMap;
 
 	GameObject baseCube ;
 
 	void Start () {
+		if (Singleton == null) {
+			Singleton = this;
+		}
 		baseCube = (GameObject)Resources.Load ("Prefabs/BaseWall");
 		BuildGrid (width, height);
 		SetupCamera ();
@@ -32,18 +37,30 @@ public class LevelEditorController : MonoBehaviour {
 	public void TileClick(Position pos){
 		//Quaternion rot = Quaternion.Euler (0f, Random.Range (0, 4) * 90f, 0f);
 		if (gridMap.AddTile (pos, GridTile.BasicBlock)) {
-			GameObject go = (GameObject)Instantiate (baseCube, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
-			go.transform.SetParent (transform);
+			grid[pos.x, pos.y] = (GameObject)Instantiate (baseCube, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
+			grid[pos.x, pos.y] .GetComponent<PieceController> ().position = pos;
+			grid[pos.x, pos.y] .transform.SetParent (transform);
 		}
 	}
+
+	public void PieceClick(Position pos){
+		
+		if (gridMap.RemoveTile (pos) != null) {
+			print ("entrou");
+			Destroy( grid[pos.x, pos.y]); 
+		}
+	}
+
 	void SetupCamera(){
 		Vector3 pos = new Vector3 ((width - 1) / 2, 25f, -8f);
 		Camera.main.GetComponent<CameraController> ().SetPosition (pos);
 	}
 	void BuildGrid(int x, int y){
+		
 		GameObject tile = (GameObject)Resources.Load ("Prefabs/Tile");
 		grid = new GameObject[x, y];
 		gridMap = new GridMap (x, y);
+		gridMap.SetBaseGridMap ();
 		JsonUtility.ToJson (gridMap); //it forces intialization of all positions
 
 		for (int i = 0; i < x; i++) {
@@ -66,7 +83,7 @@ public class LevelEditorController : MonoBehaviour {
 		print (Application.dataPath + "/save.json");
 		#endif
 
-		#if UNITY_WEBGL
+		#if UNITY_WEBGL && !UNITY_EDITOR
 		Dictionary<string,string> headers = new Dictionary<string, string>();
 		headers.Add("Content-Type", "application/json");
 
@@ -88,12 +105,14 @@ public class LevelEditorController : MonoBehaviour {
 		reader.Close ();
 		#endif
 
-		#if UNITY_WEBGL
+		#if UNITY_WEBGL && !UNITY_EDITOR
+		print("webGL"); 
 		WWW www = new WWW ("52.67.94.184:3000/api/get");
 		yield return www;
+		save = www.text;
 		#endif
 
-		save = www.text;
+
 
 		gridMap = JsonUtility.FromJson<GridMap> (save);
 
@@ -105,10 +124,12 @@ public class LevelEditorController : MonoBehaviour {
 		foreach (GridTile tile in gridMap.Grid) {
 			if (!tile.IsEmpty) {
 				Position pos = new Position (tile.X, tile.Y);
-				GameObject go = (GameObject)Instantiate (baseCube, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
-				go.transform.SetParent (transform);
+				grid[tile.X, tile.Y] = (GameObject)Instantiate (baseCube, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
+				grid [tile.X, tile.Y].GetComponent<PieceController> ().position = pos;
+				grid[tile.X, tile.Y].transform.SetParent (transform);
+				gridMap.SetEmpty (pos, false);
 			}
 		}
-
+		yield return new WaitForEndOfFrame ();
 	}
 }

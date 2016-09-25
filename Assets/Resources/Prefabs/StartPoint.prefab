@@ -87,7 +87,7 @@ GameObject:
   - 4: {fileID: 4000014146217092}
   - 114: {fileID: 114000011889302064}
   m_Layer: 0
-  m_Name: EndPoint 1
+  m_Name: StartPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

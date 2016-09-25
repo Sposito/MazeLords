@@ -1,17 +1,27 @@
 ﻿using System;
 
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Serialization;
 
-	public class Player{
+[Serializable]
+public class Player{
+	[SerializeField]
+	string name;
+	[SerializeField]
+	int id;
+	[SerializeField]
+	int level;
+	[SerializeField]
+	int exp;
+	[SerializeField]
+	GridMap gridMap;
 
-		string name;
-		int id;
-		int level;
-		int exp;
 
-
-		public Player ()
-		{
-		}
+	public Player (){
+		
 	}
+}
 
 

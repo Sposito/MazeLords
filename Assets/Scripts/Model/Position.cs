@@ -5,6 +5,8 @@ using System.Collections;
 /// </summary>
 [System.Serializable]
 public class Position {
+	public static Position Zero { get { return new Position (0, 0); } }
+
 	public Position N { get{return new Position(  x, y+1);}}
 	public Position S { get{return new Position(  x, y-1);}}
 	public Position E { get{return new Position(x+1, y  );}}
