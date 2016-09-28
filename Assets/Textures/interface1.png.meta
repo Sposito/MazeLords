@@ -1,0 +1,283 @@
+fileFormatVersion: 2
+guid: c571a96f8342840d6a95c621164778eb
+timeCreated: 1475065194
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: verticalStoneBar
+    21300002: shadowBartop
+    21300004: interface1_2
+    21300006: interface1_3
+    21300008: interface1_4
+    21300010: shadowBarmid
+    21300012: interface1_6
+    21300014: interface1_7
+    21300016: shadowBarbtm
+    21300018: PressedButton
+    21300020: verticalBarTop
+    21300022: interface1_11
+    21300024: verticalBarMid
+    21300026: interface1_13
+    21300028: interface1_14
+    21300030: verticalBarBtm
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: verticalStoneBar
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 46
+        width: 231
+        height: 894
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shadowBartop
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 828
+        width: 110
+        height: 55
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_2
+      rect:
+        serializedVersion: 2
+        x: 560
+        y: 787
+        width: 108
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_3
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 812
+        width: 76
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_4
+      rect:
+        serializedVersion: 2
+        x: 892
+        y: 756
+        width: 80
+        height: 78
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shadowBarmid
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 658
+        width: 110
+        height: 110
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_6
+      rect:
+        serializedVersion: 2
+        x: 562
+        y: 599
+        width: 106
+        height: 97
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_7
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 678
+        width: 75
+        height: 71
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: shadowBarbtm
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 544
+        width: 110
+        height: 55
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: PressedButton
+      rect:
+        serializedVersion: 2
+        x: 748
+        y: 443
+        width: 216
+        height: 213
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 45, y: 45, z: 45, w: 45}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: verticalBarTop
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 391
+        width: 110
+        height: 57
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_11
+      rect:
+        serializedVersion: 2
+        x: 534
+        y: 275
+        width: 162
+        height: 174
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: verticalBarMid
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 215
+        width: 110
+        height: 110
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_13
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 102
+        width: 144
+        height: 142
+      alignment: 1
+      pivot: {x: 0, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: interface1_14
+      rect:
+        serializedVersion: 2
+        x: 759
+        y: 112
+        width: 213
+        height: 233
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 45, y: 45, z: 45, w: 45}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: verticalBarBtm
+      rect:
+        serializedVersion: 2
+        x: 338
+        y: 92
+        width: 110
+        height: 58
+      alignment: 2
+      pivot: {x: 0.5, y: 1}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

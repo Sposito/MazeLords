@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+public enum PieceKind{Common, OnlyMovable}
 
 public class PieceController : MonoBehaviour {
 	public Position position;
-	public enum PieceKind{Common, NonRemovable}
+
 	public PieceKind pieceKind;
 	// Use this for initialization
 	void Start () {
@@ -18,7 +19,7 @@ public class PieceController : MonoBehaviour {
 	void OnMouseOver(){
 		
 		if(Input.GetMouseButton(1)){
-			LevelEditorController.Singleton.PieceClick (position);
+			LevelEditorController.Singleton.PieceClick (position, pieceKind);
 		}
 	}
 }

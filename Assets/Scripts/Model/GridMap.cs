@@ -11,10 +11,9 @@ public class GridMap  {
 	[SerializeField]
 	GridTile[] gridMap;
 	[SerializeField]
-	public ChestTile[] chests;
+	public ChestTile chest;
 	public Vector2 Size {get{ return new Vector2 ((float)width, (float)height);}}
 	public GridTile[] Grid{get{return gridMap;}}
-
 
 
 	public GridMap(int width, int height){
@@ -24,9 +23,10 @@ public class GridMap  {
 	}
 
 	public  void SetBaseGridMap(){
-		chests = new ChestTile[1];
-		chests[0]=  new ChestTile (100, 99);
-		chests [0].BaseFill ();
+		
+		chest = new ChestTile (100, 99);
+		chest.BaseFill ();
+		chest.BuildArray ();
 	}
 
 	public bool AddTile(Position pos, GridTile tile){
@@ -53,6 +53,14 @@ public class GridMap  {
 			Debug.Log (gridMap [GetIndex (pos)]);
 			return backup;
 		}
+	}
+
+	public bool MoveTile(Position pos, GridTile tile){
+		if(gridMap[GetIndex(pos)].IsEmpty)
+			return false;
+		gridMap [GetIndex (pos)] = tile;
+		return true;
+		
 	}
 
 	int GetIndex(int x, int y){

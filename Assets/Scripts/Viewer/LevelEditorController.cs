@@ -4,6 +4,8 @@ using System.IO;
 using System;
 using System.Text;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+public enum Pieces{Base = 1, StartPoint = 301, EndPoint = 302, Chest=401}
 
 public class LevelEditorController : MonoBehaviour {
 	[SerializeField]
@@ -11,20 +13,40 @@ public class LevelEditorController : MonoBehaviour {
 	[SerializeField]
 	int height = 15;
 
+	static bool comingFromValidate = false;
+	void Awake(){
+		DontDestroyOnLoad (transform.gameObject);
+	}
 	public static LevelEditorController Singleton;
 
 	GameObject[,] grid;
 	GridMap gridMap;
 
+
 	GameObject baseCube ;
+	GameObject startPoint;
+	GameObject endPoint;
+	GameObject chest;
+
+	GameObject currentGameObject;
+	Pieces selectedPiece = Pieces.Base;
+
+	bool MouseOverUI = false;
 
 	void Start () {
 		if (Singleton == null) {
 			Singleton = this;
 		}
 		baseCube = (GameObject)Resources.Load ("Prefabs/BaseWall");
+		startPoint = (GameObject)Resources.Load ("Prefabs/StartPoint");
+		endPoint = (GameObject)Resources.Load ("Prefabs/EndPoint");
+		chest = (GameObject)Resources.Load ("Prefabs/BasicChest");
+		currentGameObject = baseCube;
 		BuildGrid (width, height);
 		SetupCamera ();
+		if (comingFromValidate) {
+			LoadAsync ();
+		}
 
 	
 	}
@@ -34,23 +56,67 @@ public class LevelEditorController : MonoBehaviour {
 	
 	}
 
+	public void SelectPiece(int pieceID){
+		selectedPiece = (Pieces)pieceID;
+		ChangeCurrentGO(selectedPiece);
+	}
+
+	void ChangeCurrentGO(Pieces i){
+		switch (i) {
+		case Pieces.Base:
+			currentGameObject = baseCube;
+			break;
+		case Pieces.StartPoint:
+			currentGameObject = startPoint;
+			break;
+		case Pieces.EndPoint:
+			currentGameObject = endPoint;
+			break;
+		case Pieces.Chest:
+			currentGameObject = chest;
+			break;
+		default:
+			break;
+		}
+
+	}
+	public ChestTile GetChest(){
+		return gridMap.chest;
+	}
 	public void TileClick(Position pos){
+		if (MouseOverUI) {//Ignores click if the mouse is over UI
+			return;
+		}
 		//Quaternion rot = Quaternion.Euler (0f, Random.Range (0, 4) * 90f, 0f);
-		if (gridMap.AddTile (pos, GridTile.BasicBlock)) {
-			grid[pos.x, pos.y] = (GameObject)Instantiate (baseCube, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
+		if (gridMap.AddTile (pos, new GridTile((int)selectedPiece) )) {
+			grid[pos.x, pos.y] = (GameObject)Instantiate (currentGameObject, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
 			grid[pos.x, pos.y] .GetComponent<PieceController> ().position = pos;
 			grid[pos.x, pos.y] .transform.SetParent (transform);
 		}
 	}
 
-	public void PieceClick(Position pos){
-		
-		if (gridMap.RemoveTile (pos) != null) {
-			print ("entrou");
-			Destroy( grid[pos.x, pos.y]); 
+	public void PieceClick(Position pos, PieceKind kind){
+		if (MouseOverUI) {//Ignores click if the mouse is over UI
+			return;
 		}
+		switch (kind){
+		case PieceKind.Common:
+			if (gridMap.RemoveTile (pos) != null) {
+				print ("entrou");
+				Destroy (grid [pos.x, pos.y]);
+			}
+			break;
+		case PieceKind.OnlyMovable:
+			break;
+		default:
+			break;
+		}
+
 	}
 
+	public void SetMouseOverUI(bool b){
+		MouseOverUI = b;
+	}
 	void SetupCamera(){
 		Vector3 pos = new Vector3 ((width - 1) / 2, 25f, -8f);
 		Camera.main.GetComponent<CameraController> ().SetPosition (pos);
@@ -62,11 +128,12 @@ public class LevelEditorController : MonoBehaviour {
 		gridMap = new GridMap (x, y);
 		gridMap.SetBaseGridMap ();
 		JsonUtility.ToJson (gridMap); //it forces intialization of all positions
+		GameObject gridGO = new GameObject();
 
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
 				grid [i, j] = (GameObject)Instantiate (tile, new Vector3 (i, 0, j), Quaternion.identity);
-				grid [i, j].transform.SetParent (transform);
+				grid [i, j].transform.SetParent (gridGO.transform);
 				grid [i, j].GetComponent<TileController> ().pos = new Position (i, j);
 
 			}
@@ -76,12 +143,12 @@ public class LevelEditorController : MonoBehaviour {
 
 	public void SaveMaze(){
 		string save = JsonUtility.ToJson (gridMap);
-		#if UNITY_EDITOR
+		//#if UNITY_EDITOR || UNITY_STANDALONE
 		StreamWriter writer = new StreamWriter (Application.dataPath + "/save.json");
 		writer.Write (save);
 		writer.Close ();
 		print (Application.dataPath + "/save.json");
-		#endif
+		//#endif
 
 		#if UNITY_WEBGL && !UNITY_EDITOR
 		Dictionary<string,string> headers = new Dictionary<string, string>();
@@ -99,11 +166,11 @@ public class LevelEditorController : MonoBehaviour {
 
 	public IEnumerator LoadMaze(){
 		string save ="";
-		#if UNITY_EDITOR
+		//#if UNITY_EDITOR  || UNITY_STANDALONE
 		StreamReader reader = new StreamReader (Application.dataPath + "/save.json");
 		save = reader.ReadToEnd();
 		reader.Close ();
-		#endif
+		//#endif
 
 		#if UNITY_WEBGL && !UNITY_EDITOR
 		print("webGL"); 
@@ -124,7 +191,8 @@ public class LevelEditorController : MonoBehaviour {
 		foreach (GridTile tile in gridMap.Grid) {
 			if (!tile.IsEmpty) {
 				Position pos = new Position (tile.X, tile.Y);
-				grid[tile.X, tile.Y] = (GameObject)Instantiate (baseCube, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
+				SelectPiece (tile.Id);
+				grid[tile.X, tile.Y] = (GameObject)Instantiate (currentGameObject, new Vector3 (pos.x, 0.5f, pos.y), Quaternion.identity);
 				grid [tile.X, tile.Y].GetComponent<PieceController> ().position = pos;
 				grid[tile.X, tile.Y].transform.SetParent (transform);
 				gridMap.SetEmpty (pos, false);
@@ -132,4 +200,11 @@ public class LevelEditorController : MonoBehaviour {
 		}
 		yield return new WaitForEndOfFrame ();
 	}
+	public void ValidateMap(){
+		SaveMaze ();
+		SceneManager.LoadScene (2, LoadSceneMode.Single);
+		comingFromValidate = true;	
+
+	}
+
 }

@@ -13,12 +13,17 @@ public class PlayerController : MonoBehaviour {
 	float verticaScale = 0f;
 	float baseYScale;
 	public AnimationCurve curve;
+	AudioSource audioSource;
+
+	public float audioReponse = 0.95f;
+	float speedMag = 0f;
 	void Start () {
 		controller = GetComponent<CharacterController> ();
 		sprite = GetComponent<Sprite> ();
 		rightScale = transform.localScale;
 		leftScale = new Vector3 (-rightScale.x, rightScale.y, rightScale.z);
 		baseYScale = transform.localScale.y;
+		audioSource = GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -36,10 +41,14 @@ public class PlayerController : MonoBehaviour {
 		}
 		move = new Vector3 (h, 0f, v);
 		controller.SimpleMove (move);
-		verticaScale = curve.Evaluate (Time.time) - ((1 - curve.Evaluate (Time.time)) * 2*controller.velocity.magnitude);
+
+		speedMag = controller.velocity.magnitude;
+		verticaScale = curve.Evaluate (Time.time) - ((1 - curve.Evaluate (Time.time)) * 2*speedMag);
 
 		transform.localScale = new Vector3 (transform.localScale.x, baseYScale * verticaScale, transform.localScale.z);
-
+		audioSource.volume = Mathf.Lerp( speedMag/2, audioSource.volume, audioReponse);
+		//audioSource.
+		print (speedMag);
 	
 	}
 }

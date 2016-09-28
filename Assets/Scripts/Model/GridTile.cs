@@ -2,8 +2,10 @@
 /// Base maze tile
 /// </summary>
 using UnityEngine;
+using System.Collections.Generic;
+using System;
 [System.Serializable]
-public class GridTile{
+public class GridTile : IComparable<GridTile>{
 	[SerializeField]
 	bool isAnchor;
 	GridTile anchor;
@@ -11,7 +13,7 @@ public class GridTile{
 	Position position = Position.Zero;
 	[SerializeField]
 	protected int id;
-
+	public int Id{get{ return id;}}
 	public int X{get{ return position.x;}}
 	public int Y{get{ return position.y;}} 
 	public bool IsEmpty = true;
@@ -29,6 +31,9 @@ public class GridTile{
 		}
 	}
 
+	public int CompareTo (GridTile other){
+		return this.id.CompareTo (other.id);
+	}
 	public void SetPosition(Position position){
 		this.position = position;
 	}
