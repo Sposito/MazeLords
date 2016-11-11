@@ -4,8 +4,10 @@ using System.Collections.Generic;
 public class SideBarController : MonoBehaviour {
 
 	// Use this for initialization
+	LevelEditorController controller;
 	void Start () {
-		
+		controller  = LevelEditorController.Singleton;
+		//Build ();
 	}
 	
 	// Update is called once per frame
@@ -14,7 +16,7 @@ public class SideBarController : MonoBehaviour {
 	}
 
 	void Build(){
-		LevelEditorController controller  = LevelEditorController.Singleton;
+		
 
 		List<GridTile> tiles = controller.GetChest ().contentList;
 		tiles.Sort ();

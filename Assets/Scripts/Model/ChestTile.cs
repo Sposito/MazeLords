@@ -53,6 +53,7 @@ public class ChestTile : GridTile {
 			contentList.Add (new GridTile (1));//base tile
 			i--;
 		}
+		contentList.Sort ();
 	}
 
 }

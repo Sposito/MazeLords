@@ -30,15 +30,28 @@ public class TileController : MonoBehaviour {
 
 	}
 
+	void OnMouseUp(){
+		levelEditorController.ClearLine ();
+		levelEditorController.AddLine (pos);
+	}
+
 	void OnMouseEnter(){
 		StartCoroutine (LightUp());
+		levelEditorController.SetCurrentTile (pos);
 
 	}
 	void OnMouseExit(){
+		
 		StartCoroutine (LightDown());
+
 		Invoke ("ForceLightDown", .5f);
 
 	}
+	LineRenderer line = new LineRenderer();
+	void OnMouseDrag(){
+		levelEditorController.DrawLine (pos);	
+	}
+
 	IEnumerator LightUp(){
 		while (rend.material.color != lightColor) {
 

@@ -15,6 +15,17 @@ public class PlayerController : MonoBehaviour {
 	public AnimationCurve curve;
 	AudioSource audioSource;
 
+	public ParticleSystem headParticleEmitter;
+	public ParticleSystem tailPArticleEmitter;
+	public Light gizmoLight;
+	float starLightIntensity;
+	public AnimationCurve falloutCurve;
+
+	Player player;
+	float energy;
+	Vector3 gizmoOrignalScale;
+
+
 	public float audioReponse = 0.95f;
 	float speedMag = 0f;
 	void Start () {
@@ -24,6 +35,11 @@ public class PlayerController : MonoBehaviour {
 		leftScale = new Vector3 (-rightScale.x, rightScale.y, rightScale.z);
 		baseYScale = transform.localScale.y;
 		audioSource = GetComponent<AudioSource> ();
+		player = Player.LoadCurrentPlayer ();
+		energy = player.Energy;
+		headParticleEmitter.startLifetime = player.Energy;
+		starLightIntensity = gizmoLight.intensity;
+
 	}
 	
 	// Update is called once per frame
@@ -48,7 +64,21 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = new Vector3 (transform.localScale.x, baseYScale * verticaScale, transform.localScale.z);
 		audioSource.volume = Mathf.Lerp( speedMag/2, audioSource.volume, audioReponse);
 		//audioSource.
-		print (speedMag);
+
+
+
+		if (energy <= 0) {
+			print ("Game Over");
+			tailPArticleEmitter.startSize = 0;
+		}
+		else {
+			headParticleEmitter.startSize *=  falloutCurve.Evaluate (energy / player.Energy);
+			gizmoLight.intensity = starLightIntensity * energy / player.Energy;
+			energy -= (float)Time.deltaTime;
+
+		}
 	
 	}
+
+
 }

@@ -15,7 +15,7 @@ public class LevelEditorController : MonoBehaviour {
 
 	static bool comingFromValidate = false;
 	void Awake(){
-		DontDestroyOnLoad (transform.gameObject);
+		//DontDestroyOnLoad (transform.gameObject);
 	}
 	public static LevelEditorController Singleton;
 
@@ -31,8 +31,10 @@ public class LevelEditorController : MonoBehaviour {
 	GameObject currentGameObject;
 	Pieces selectedPiece = Pieces.Base;
 
+	GameObject lineGui;
+	LineRenderer line; 
 	bool MouseOverUI = false;
-
+	Position currentPosition = new Position(0,0);
 	void Start () {
 		if (Singleton == null) {
 			Singleton = this;
@@ -44,13 +46,23 @@ public class LevelEditorController : MonoBehaviour {
 		currentGameObject = baseCube;
 		BuildGrid (width, height);
 		SetupCamera ();
+		BuildLine ();
 		if (comingFromValidate) {
+			
 			LoadAsync ();
 		}
 
-	
+
 	}
-	
+
+	public void BuildLine(){
+		lineGui = new GameObject ();
+		line = lineGui.AddComponent<LineRenderer> ();
+		line.SetPosition (0, Vector3.zero);
+		line.SetPosition (1, Vector3.zero);
+		line.material = (Material)Resources.Load ("Line");
+	}
+
 	// Update is called once per frame
 	void Update () {
 	
@@ -205,6 +217,88 @@ public class LevelEditorController : MonoBehaviour {
 		SceneManager.LoadScene (2, LoadSceneMode.Single);
 		comingFromValidate = true;	
 
+	}
+
+	public void SetCurrentTile(Position pos){
+		currentPosition = pos;	
+	}
+
+	public void DrawLine(Position start){
+		Vector3 startOffset = Vector3.zero;
+		Vector3 endOffset = Vector3.zero;
+
+		if (start.x == currentPosition.x) {
+			if (start.y > currentPosition.y) {
+				startOffset = Vector3.forward / 2f;
+				endOffset = Vector3.back / 2f;
+			} 
+			else if (start.y < currentPosition.y) {
+				startOffset = Vector3.back / 2f;
+				endOffset = Vector3.forward / 2f;
+			}
+
+			line.SetPosition (0, start.AsVec3 + startOffset);
+			line.SetPosition (1, currentPosition.AsVec3 + endOffset);
+			return;
+
+		} 
+		else if (start.y == currentPosition.y) {
+
+			if (start.x > currentPosition.x) {
+				startOffset = Vector3.right / 2f;
+				endOffset = Vector3.left / 2f;
+			} 
+			else if (start.x < currentPosition.x) {
+				startOffset = Vector3.left / 2f;
+				endOffset = Vector3.right / 2f;
+			}
+			line.SetPosition (0, start.AsVec3 + startOffset);
+			line.SetPosition (1, currentPosition.AsVec3 + endOffset);
+			return;
+
+		}
+
+	
+		ClearLine ();
+
+	}
+
+	public void ClearLine(){
+		line.SetPosition (0, Vector3.zero);
+		line.SetPosition (1, Vector3.zero);
+	}
+
+	public void AddLine(Position startPos){
+		if (startPos == currentPosition) {
+			return;
+		}
+
+		if (startPos.y == currentPosition.y) {
+			if (startPos.x < currentPosition.x) {
+				for (int i = startPos.x + 1; i <= currentPosition.x; i++) {
+					TileClick (new Position (i, startPos.y));
+				}
+			}
+			else {
+				for (int i = startPos.x - 1; i >= currentPosition.x; i--) {
+					TileClick (new Position (i, startPos.y));
+				}
+			}
+		}
+
+		else if (startPos.x == currentPosition.x) {
+			if (startPos.y < currentPosition.y ){
+				for (int i = startPos.y + 1; i <= currentPosition.y; i++) {
+					TileClick (new Position (startPos.x, i));
+				}
+			}
+			else {
+				for (int i = startPos.y - 1; i >= currentPosition.y; i--) {
+					TileClick (new Position (startPos.x, i));
+				}
+			}
+
+		}
 	}
 
 }
