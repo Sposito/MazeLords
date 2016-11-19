@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: New Material
+  m_Name: PlayerQuadMaterial
   m_Shader: {fileID: 4800000, guid: efdaba941100047c6a10ffd5b979025a, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION _NORMALMAP _SPECGLOSSMAP
   m_LightmapFlags: 1
@@ -18,7 +18,7 @@ Material:
     - first:
         name: _BumpMap
       second:
-        m_Texture: {fileID: 2800000, guid: 528435585d48640cba0477dad94ad77e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 8689208db13ca41d1b3ea110c75bfd66, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:
@@ -54,7 +54,7 @@ Material:
     - first:
         name: _MainTex
       second:
-        m_Texture: {fileID: 2800000, guid: 191f6a0940ddb42f684cab80050193c4, type: 3}
+        m_Texture: {fileID: 2800000, guid: dcec6650867ee4759adc0935574c97be, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - first:

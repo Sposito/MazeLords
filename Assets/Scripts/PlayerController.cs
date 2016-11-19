@@ -15,6 +15,14 @@ public class PlayerController : MonoBehaviour {
 	public AnimationCurve curve;
 	AudioSource audioSource;
 
+	public Texture frontTexture;
+	public Texture backTexture;
+	public Texture frontNormalTexture;
+	public Texture backNormalTexture;
+
+	public Material playerQuadMaterial;
+
+
 	public ParticleSystem headParticleEmitter;
 	public ParticleSystem tailPArticleEmitter;
 	public Light gizmoLight;
@@ -55,6 +63,16 @@ public class PlayerController : MonoBehaviour {
 			leftScale = new Vector3 (leftScale.x, baseYScale * verticaScale, leftScale.z);
 			transform.localScale = leftScale;
 		}
+
+		if (v > 0) {
+			playerQuadMaterial.SetTexture ("_MainTex", backTexture);
+			playerQuadMaterial.SetTexture ("_BumpMap", backNormalTexture);
+		} 
+		else if (v < 0) {
+			playerQuadMaterial.SetTexture ("_MainTex", frontTexture);
+			playerQuadMaterial.SetTexture ("_BumpMap", frontNormalTexture);
+		}
+
 		move = new Vector3 (h, 0f, v);
 		controller.SimpleMove (move);
 
