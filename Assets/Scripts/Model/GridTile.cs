@@ -5,7 +5,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 [System.Serializable]
-public class GridTile : IComparable<GridTile>{
+public class GridTile : IComparable<GridTile>, IComparable<GridTiles>{
 	[SerializeField]
 	bool isAnchor;
 	GridTile anchor;
@@ -32,6 +32,9 @@ public class GridTile : IComparable<GridTile>{
 	}
 
 	public int CompareTo (GridTile other){
+		return this.id.CompareTo (other.id);
+	}
+	public int CompareTo (GridTiles other){
 		return this.id.CompareTo (other.id);
 	}
 	public void SetPosition(Position position){

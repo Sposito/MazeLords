@@ -39,11 +39,7 @@ public class LevelEditorController : MonoBehaviour {
 		if (Singleton == null) {
 			Singleton = this;
 		}
-		baseCube = (GameObject)Resources.Load ("Prefabs/BaseWall");
-		startPoint = (GameObject)Resources.Load ("Prefabs/StartPoint");
-		endPoint = (GameObject)Resources.Load ("Prefabs/EndPoint");
-		chest = (GameObject)Resources.Load ("Prefabs/BasicChest");
-		currentGameObject = baseCube;
+		LoadBasicBlocks ();
 		BuildGrid (width, height);
 		SetupCamera ();
 		BuildLine ();
@@ -53,6 +49,14 @@ public class LevelEditorController : MonoBehaviour {
 		}
 
 
+	}
+
+	void LoadBasicBlocks(){
+		baseCube = (GameObject)Resources.Load ("Prefabs/BaseWall");
+		startPoint = (GameObject)Resources.Load ("Prefabs/StartPoint");
+		endPoint = (GameObject)Resources.Load ("Prefabs/EndPoint");
+		chest = (GameObject)Resources.Load ("Prefabs/BasicChest");
+		currentGameObject = baseCube;
 	}
 
 	public void BuildLine(){

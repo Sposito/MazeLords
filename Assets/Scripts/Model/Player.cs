@@ -34,5 +34,3 @@ public class Player{
 		return new Player ("Link", 30f);
 	}
 }
-
-

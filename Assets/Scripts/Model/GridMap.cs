@@ -66,6 +66,7 @@ public class GridMap  {
 	int GetIndex(int x, int y){
 		return y * width + x;
 	}
+
 	int GetIndex(Position pos){
 		return pos.y * width + pos.x;
 	}

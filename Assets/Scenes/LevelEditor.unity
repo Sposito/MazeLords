@@ -830,6 +830,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2c9d666e57f24e8ba83edd41134b7df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  amounts: []
 --- !u!1 &388018701
 GameObject:
   m_ObjectHideFlags: 0
@@ -2155,6 +2156,7 @@ GameObject:
   - 114: {fileID: 1117863945}
   - 114: {fileID: 1117863944}
   - 65: {fileID: 1117863948}
+  - 114: {fileID: 1117863947}
   m_Layer: 5
   m_Name: Base Wall
   m_TagString: Untagged
@@ -2267,6 +2269,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1117863942}
+--- !u!114 &1117863947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1117863942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5549f101865f043b8a075a3799ddce26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  label: {fileID: 656590114}
+  target: 1
 --- !u!65 &1117863948
 BoxCollider:
   m_ObjectHideFlags: 0

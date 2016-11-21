@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
+
 public class SideBarController : MonoBehaviour {
 
 	// Use this for initialization
 	LevelEditorController controller;
+	public Text[] amounts;
+
 	void Start () {
-		controller  = LevelEditorController.Singleton;
+		controller = FindObjectOfType<LevelEditorController> ();
+
 		//Build ();
 	}
 	
@@ -18,10 +23,10 @@ public class SideBarController : MonoBehaviour {
 	void Build(){
 		
 
-		List<GridTile> tiles = controller.GetChest ().contentList;
+		List<GridTiles> tiles = controller.GetChest ().contentList;
 		tiles.Sort ();
 		int current = -1;
-		foreach (GridTile t in tiles) {
+		foreach (GridTiles t in tiles) {
 			if (t.Id != current) {
 				
 			}
