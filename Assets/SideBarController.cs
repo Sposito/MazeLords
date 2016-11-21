@@ -9,6 +9,7 @@ public class SideBarController : MonoBehaviour {
 	LevelEditorController controller;
 	public Text[] amounts;
 
+
 	void Start () {
 		controller = FindObjectOfType<LevelEditorController> ();
 
