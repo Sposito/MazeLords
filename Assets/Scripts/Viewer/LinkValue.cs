@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+
 public class LinkValue : MonoBehaviour {
 	public Text label;
 	public int target;
+	public Pieces piece;
+	public int max = 80;
 
 	LevelEditorController levelEditor;
 	// Use this for initialization
@@ -13,7 +16,7 @@ public class LinkValue : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		label.text = levelEditor.GetChest ().GetAmount (target) + "";
+		label.text = "" + Mathf.Max(0, max - levelEditor.CountPieces (piece));
 
 	}
 }

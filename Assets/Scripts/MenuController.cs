@@ -19,6 +19,10 @@ public class MenuController : MonoBehaviour {
 	public void LoadLevelEditor(){
 		SceneManager.LoadScene (1, LoadSceneMode.Single);
 	}
+
+	public void LoadPlayMode(){
+		SceneManager.LoadScene (3, LoadSceneMode.Single);
+	}
 //	public void FBLogin() {
 //		//FB.LogInWithReadPermissions ();
 //

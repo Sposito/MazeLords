@@ -13,6 +13,8 @@ public class LevelEditorController : MonoBehaviour {
 	[SerializeField]
 	int height = 15;
 
+	public UnityEngine.UI.Text dialogBox;
+
 	static bool comingFromValidate = false;
 	void Awake(){
 		//DontDestroyOnLoad (transform.gameObject);
@@ -35,6 +37,7 @@ public class LevelEditorController : MonoBehaviour {
 	LineRenderer line; 
 	bool MouseOverUI = false;
 	Position currentPosition = new Position(0,0);
+	public UnityEngine.UI.Image validateIcon;
 	void Start () {
 		if (Singleton == null) {
 			Singleton = this;
@@ -44,21 +47,42 @@ public class LevelEditorController : MonoBehaviour {
 		SetupCamera ();
 		BuildLine ();
 		if (comingFromValidate) {
-			
+			//Time.timeScale = 1f;
 			LoadAsync ();
+			if (gridMap.Validated) {
+				ValidateMapInGUI ();
+			}
+
 		}
 
 
+	}
+
+
+	public void ReturnToMainMenu(){
+		SceneManager.LoadScene (4, LoadSceneMode.Single);
+	}
+	void ValidateMapInGUI(){
+		if (gridMap.Validated) {
+			validateIcon.color = Color.green;
+			dialogBox.text = "Your base was successfully validated!";
+		}
+		else {
+			validateIcon.color = Color.grey;
+			dialogBox.text = "You currently has no validated base.";
+		}
 	}
 
 	void LoadBasicBlocks(){
 		baseCube = (GameObject)Resources.Load ("Prefabs/BaseWall");
 		startPoint = (GameObject)Resources.Load ("Prefabs/StartPoint");
 		endPoint = (GameObject)Resources.Load ("Prefabs/EndPoint");
-		chest = (GameObject)Resources.Load ("Prefabs/BasicChest");
+		chest = (GameObject)Resources.Load ("Prefabs/Chest/BasicChest");
 		currentGameObject = baseCube;
 	}
-
+	public int CountPieces(Pieces piece){
+		return gridMap.tracker.Count (piece);
+	}
 	public void BuildLine(){
 		lineGui = new GameObject ();
 		line = lineGui.AddComponent<LineRenderer> ();
@@ -69,7 +93,7 @@ public class LevelEditorController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+		ValidateMapInGUI ();
 	}
 
 	public void SelectPiece(int pieceID){
@@ -215,8 +239,15 @@ public class LevelEditorController : MonoBehaviour {
 			}
 		}
 		yield return new WaitForEndOfFrame ();
+		ValidateMapInGUI ();
 	}
 	public void ValidateMap(){
+		if (!gridMap.tracker.hasBasicSetup ()) {
+			dialogBox.text = "A chest, a start and endpoints are required!";
+			//dialogBox.color = Color.red;
+			return;
+		}
+
 		SaveMaze ();
 		SceneManager.LoadScene (2, LoadSceneMode.Single);
 		comingFromValidate = true;	

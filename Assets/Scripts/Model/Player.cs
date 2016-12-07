@@ -31,6 +31,10 @@ public class Player{
 	}
 
 	public static Player LoadCurrentPlayer(){
-		return new Player ("Link", 30f);
+		return new Player ("Link", 60f);
+	}
+
+	public void SetEnergy(float f){
+		energy = f;
 	}
 }

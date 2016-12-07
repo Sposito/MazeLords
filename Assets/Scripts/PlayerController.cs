@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 	float h = 0;
@@ -14,6 +15,7 @@ public class PlayerController : MonoBehaviour {
 	float baseYScale;
 	public AnimationCurve curve;
 	AudioSource audioSource;
+	public RectTransform lifeBarTransform;
 
 	public Texture frontTexture;
 	public Texture backTexture;
@@ -30,8 +32,12 @@ public class PlayerController : MonoBehaviour {
 	public AnimationCurve falloutCurve;
 
 	Player player;
-	float energy;
+	public float energy;
+	float maxEnergy;
 	Vector3 gizmoOrignalScale;
+	public GameObject gameOverMenu;
+	public float totalEnergy = 60f;
+
 
 
 	public float audioReponse = 0.95f;
@@ -44,13 +50,24 @@ public class PlayerController : MonoBehaviour {
 		baseYScale = transform.localScale.y;
 		audioSource = GetComponent<AudioSource> ();
 		player = Player.LoadCurrentPlayer ();
+		player.SetEnergy (totalEnergy);
 		energy = player.Energy;
+		maxEnergy = energy; 
 		headParticleEmitter.startLifetime = player.Energy;
 		starLightIntensity = gizmoLight.intensity;
 
 	}
 	
 	// Update is called once per frame
+
+	public void GameOver(){
+		StartCoroutine (GameOverCoroutine ());
+	}
+	IEnumerator GameOverCoroutine(){
+		Camera.main.gameObject.GetComponent<CameraPlayController> ().goAway = true;
+		yield return new WaitForSeconds(5f);
+		gameOverMenu.SetActive (true);
+	}
 	void Update () {
 		h = Input.GetAxis("Horizontal") * speed;
 		v = Input.GetAxis("Vertical")   * speed;
@@ -83,10 +100,11 @@ public class PlayerController : MonoBehaviour {
 		audioSource.volume = Mathf.Lerp( speedMag/2, audioSource.volume, audioReponse);
 		//audioSource.
 
-
+		lifeBarTransform.SetSizeWithCurrentAnchors (RectTransform.Axis.Vertical, 800 * energy / maxEnergy);
 
 		if (energy <= 0) {
 			print ("Game Over");
+			GameOver ();
 			tailPArticleEmitter.startSize = 0;
 		}
 		else {

@@ -6,6 +6,7 @@ public class PieceController : MonoBehaviour {
 	public Position position;
 
 	public PieceKind pieceKind;
+	public Pieces id;
 	// Use this for initialization
 	void Start () {
 	

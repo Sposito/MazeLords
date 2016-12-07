@@ -15,11 +15,21 @@ public class GridMap  {
 	public Vector2 Size {get{ return new Vector2 ((float)width, (float)height);}}
 	public GridTile[] Grid{get{return gridMap;}}
 
+	[SerializeField]
+	public PieceTracker tracker;
+
+	[SerializeField]
+	public bool Validated = false;
+
+
 
 	public GridMap(int width, int height){
 		this.width = width;
 		this.height = height;
 		gridMap = new GridTile[width * height];
+		tracker = new PieceTracker();
+
+
 	}
 
 	public  void SetBaseGridMap(){
@@ -30,9 +40,13 @@ public class GridMap  {
 	}
 
 	public bool AddTile(Position pos, GridTile tile){
+		if (Validated) {
+			Validated = false;
+		}
 		if (gridMap [GetIndex(pos)].IsEmpty && CheckFour(pos)) {
 			gridMap [GetIndex(pos)] = tile;
 			gridMap [GetIndex(pos)].SetPosition (pos);
+			tracker.Add ((Pieces)tile.Id);
 			return true;
 		} 
 		else return false;
@@ -40,6 +54,9 @@ public class GridMap  {
 	}
 
 	public GridTile RemoveTile(Position pos){
+		if (Validated) {
+			Validated = false;
+		}
 		GridTile backup = gridMap [GetIndex (pos)];
 		gridMap [GetIndex (pos)] = GridTile.Empty;
 		if (backup == null) {
@@ -51,11 +68,15 @@ public class GridMap  {
 		} 
 		else {
 			Debug.Log (gridMap [GetIndex (pos)]);
+			tracker.Remove ((Pieces)backup.Id);
 			return backup;
 		}
 	}
 
 	public bool MoveTile(Position pos, GridTile tile){
+		if (Validated) {
+			Validated = false;
+		}
 		if(gridMap[GetIndex(pos)].IsEmpty)
 			return false;
 		gridMap [GetIndex (pos)] = tile;
